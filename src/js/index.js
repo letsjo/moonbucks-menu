@@ -13,11 +13,11 @@ function App() {
   // 상태는 변하는 데이터, 이 앱에서 변하는 것이 무엇인가 - 메뉴명
   this.menu = [];
   this.init = () => {
-    if (store.getLocalStorage().length > 1) {
+    if (store.getLocalStorage()?.length > 1) {
       this.menu = store.getLocalStorage();
     }
     render();
-  }
+  };
 
   const render = () => {
     const template = this.menu.map((menuItem, index) => {
