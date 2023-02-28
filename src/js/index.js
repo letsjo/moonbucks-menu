@@ -1,8 +1,13 @@
-// 리펙토링 
-// 1. [x] 이벤트 바인딩 하는 함수와 재사용하는 함수 분리
-// 2. 
-
 const $ = (selector) => document.querySelector(selector);
+
+const store = {
+  setLocalStorage(menu) {
+    localStorage.setItem('menu', JSON.stringify(menu));
+  },
+  getLocalStorage() {
+    localStorage.getItem('menu');
+  }
+}
 
 function App() {
   const updateMenuCount = () => {
@@ -11,10 +16,12 @@ function App() {
   }
 
   const addMenuName = () => {
+
     if ($('#espresso-menu-name').value === '') {
       alert('값을 입력해주세요');
       return;
     }
+
     const espressoMenuName = $('#espresso-menu-name').value;
     const menuItemTemplate = (espressoMenuName) => {
       return `<li class='menu-list-item d-flex items-center py-2'>
@@ -33,24 +40,30 @@ function App() {
                 </button>
               </li>`
     }
+
     $('#espresso-menu-list').insertAdjacentHTML(
       'beforeend',
       menuItemTemplate(espressoMenuName)
     );
 
     updateMenuCount();
+
     $('#espresso-menu-name').value = '';
   }
 
   const updateMenuName = (e) => {
+
     const $menuName = e.target.closest('li').querySelector('.menu-name');
+
     const updatedMenuName = prompt(
       '메뉴명을 수정하세요',
       $menuName.innerText
     );
+
     if (updatedMenuName === null) {
       return;
     }
+
     if (updatedMenuName === '') {
       alert('값을 입력해주세요');
       return;
