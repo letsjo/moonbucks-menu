@@ -11,7 +11,7 @@ const store = {
 
 function App() {
   // 상태는 변하는 데이터, 이 앱에서 변하는 것이 무엇인가 - 메뉴명
-  this.menu;
+  this.menu = [];
 
   const updateMenuCount = () => {
     const menuCount = $('#espresso-menu-list').querySelectorAll('li').length;
@@ -26,9 +26,11 @@ function App() {
     }
 
     const espressoMenuName = $('#espresso-menu-name').value;
-    const menuItemTemplate = (espressoMenuName) => {
+    this.menu.push({ name: espressoMenuName });
+
+    const template = this.menu.map((menuItem) => {
       return `<li class='menu-list-item d-flex items-center py-2'>
-                <span class='w-100 pl-2 menu-name'>${espressoMenuName}</span>
+                <span class='w-100 pl-2 menu-name'>${menuItem.name}</span>
                 <button
                   type='button'
                   class='bg-gray-50 text-gray-500 text-sm mr-1 menu-edit-button'
@@ -42,12 +44,9 @@ function App() {
                   삭제
                 </button>
               </li>`
-    }
+    }).join('');
 
-    $('#espresso-menu-list').insertAdjacentHTML(
-      'beforeend',
-      menuItemTemplate(espressoMenuName)
-    );
+    $('#espresso-menu-list').innerHTML = template;
 
     updateMenuCount();
 
