@@ -1,7 +1,7 @@
 // ### ⬜ TODO 메뉴 삭제
 
-// - [ ] 메뉴 삭제 버튼을 이용하여 메뉴 삭제할 수 있다.
-// - [ ] 메뉴 삭제시 브라우저에서 제공하는 `confirm` 인터페이스를 활용한
+// - [x] 메뉴 삭제 버튼을 이용하여 메뉴 삭제할 수 있다.
+// - [x] 메뉴 삭제시 브라우저에서 제공하는 `confirm` 인터페이스를 활용한
 //       다.
 // - [ ] 총 메뉴 갯수를 count하여 상단에 보여준다.
 
@@ -26,7 +26,9 @@ function App() {
     }
 
     if (e.target.classList.contains('menu-remove-button')) {
-
+      if (confirm('정말 삭제하시겠습니까?')) {
+        e.target.closest('li').remove();
+      }
     }
   });
 
