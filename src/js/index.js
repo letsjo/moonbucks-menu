@@ -5,10 +5,8 @@
 //       `<ul id="espresso-menu-list" class="mt-3 pl-0"></ul>` 안에 삽입
 //       해야 한다.
 // - [x] 총 메뉴 갯수를 count하여 상단에 보여준다.
+// - [x] 메뉴가 추가되고 나면, input은 빈 값으로 초기화한다.
 // - [ ] 메뉴의 이름을 입력 받고 확인 버튼을 클릭하면 메뉴를 추가한다.
-// - [ ] 메뉴의 이름 입력값이 빈 값이라면 추가되지 않는다.
-// - [ ] 메뉴가 추가되고 나면, input은 빈 값으로 초기화한다.
-// - [ ] 사용자 입력값이 빈 값이라면 추가되지 않는다.
 
 const $ = (selector) => document.querySelector(selector);
 
@@ -47,6 +45,9 @@ function App() {
       //const 변수 = li 갯수를 카운팅
       const menuCount = $('#espresso-menu-list').querySelectorAll('li').length;
       $('.menu-count').innerText = `총 ${menuCount}개`
+
+      // 메뉴가 추가되고 나면, input은 빈 값으로 초기화한다.
+      $('#espresso-menu-name').value = '';
     }
   });
 }
