@@ -82,10 +82,10 @@
 
 ### ⬜ TODO 데이터 Read & Write
 
-- [ ] localStorage에 데이터를 저장한다.
+- [x] localStorage에 데이터를 저장한다.
   - [x] 메뉴를 추가할 때 저장
   - [x] 메뉴를 수정할 때 저장
-  - [ ] 메뉴를 삭제할 때 저장
+  - [x] 메뉴를 삭제할 때 저장
 - [ ] localStorage의 데이터를 읽어온다.
 
 ### ⬜ TODO 카테고리별 메뉴판 관리
