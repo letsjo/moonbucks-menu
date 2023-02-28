@@ -1,13 +1,5 @@
-const $ = (selector) => document.querySelector(selector);
-
-const store = {
-  setLocalStorage(menu) {
-    localStorage.setItem('menu', JSON.stringify(menu));
-  },
-  getLocalStorage() {
-    return JSON.parse(localStorage.getItem('menu'));
-  }
-}
+import { $ } from './utils/dom.js';
+import store from './store/index.js';
 
 function App() {
   // 상태는 변하는 데이터, 이 앱에서 변하는 것이 무엇인가 - 메뉴명
