@@ -48,29 +48,29 @@ function App() {
               </li>`
       }).join('');
 
-    $('#espresso-menu-list').innerHTML = template;
+    $('#menu-list').innerHTML = template;
 
     updateMenuCount();
   }
 
   const updateMenuCount = () => {
-    const menuCount = $('#espresso-menu-list').querySelectorAll('li').length;
+    const menuCount = $('#menu-list').querySelectorAll('li').length;
     $('.menu-count').innerText = `총 ${menuCount}개`
   }
 
   const addMenuName = () => {
 
-    if ($('#espresso-menu-name').value === '') {
+    if ($('#menu-name').value === '') {
       alert('값을 입력해주세요');
       return;
     }
 
-    const espressoMenuName = $('#espresso-menu-name').value;
-    this.menu[this.currentCategory].push({ name: espressoMenuName });
+    const menuName = $('#menu-name').value;
+    this.menu[this.currentCategory].push({ name: menuName });
     store.setLocalStorage(this.menu);
     render();
 
-    $('#espresso-menu-name').value = '';
+    $('#menu-name').value = '';
   }
 
   const updateMenuName = (e) => {
@@ -107,7 +107,7 @@ function App() {
     }
   }
 
-  $('#espresso-menu-list').addEventListener('click', (e) => {
+  $('#menu-list').addEventListener('click', (e) => {
     if (e.target.classList.contains('menu-edit-button')) {
       updateMenuName(e);
     }
@@ -117,13 +117,13 @@ function App() {
     }
   });
 
-  $('#espresso-menu-form').addEventListener('submit', (e) => {
+  $('#menu-form').addEventListener('submit', (e) => {
     e.preventDefault();
   });
 
-  $('#espresso-menu-submit-button').addEventListener('click', addMenuName);
+  $('#menu-submit-button').addEventListener('click', addMenuName);
 
-  $('#espresso-menu-name').addEventListener('keypress', (e) => {
+  $('#menu-name').addEventListener('keypress', (e) => {
     if (e.key !== 'Enter') {
       return;
     }
