@@ -16,7 +16,7 @@ function App() {
     frappuccino: [],
     blended: [],
     teavana: [],
-    desert: []
+    dessert: []
   };
 
   this.currentCategory = 'espresso';
@@ -135,7 +135,9 @@ function App() {
     const isCategoryButton = e.target.classList.contains('cafe-category-name');
     if (isCategoryButton) {
       const categoryName = e.target.dataset.categoryName;
-      console.log(categoryName);
+      this.currentCategory = categoryName;
+      $('#category-title').innerText = `${e.target.innerText} 메뉴 관리`;
+      render();
     }
   });
 }
