@@ -1,7 +1,7 @@
 // ### ⬜ TODO 메뉴 수정
 
 // - [x] 메뉴의 수정 버튼을 눌러 메뉴 이름 수정할 수 있다.
-// - [ ] 메뉴 수정시 브라우저에서 제공하는 `prompt` 인터페이스를 활용한다
+// - [x] 메뉴 수정시 브라우저에서 제공하는 `prompt` 인터페이스를 활용한다
 //       .
 // - [ ] 메뉴 수정시 빈 값이라면 수정되지 않는다.
 // - [ ] 메뉴 수정시 취소 버튼을 누르면 수정되지 않는다.
@@ -11,7 +11,10 @@ const $ = (selector) => document.querySelector(selector);
 function App() {
   $('#espresso-menu-list').addEventListener('click', (e) => {
     if (e.target.classList.contains('menu-edit-button')) {
-      console.log(e.target);
+      const menuName = e.target
+        .closest('li')
+        .querySelector('.menu-name').innerText;
+      prompt('메뉴명을 수정하세요', menuName);
     }
   })
 
