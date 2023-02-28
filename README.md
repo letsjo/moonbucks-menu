@@ -20,7 +20,7 @@
 
 ---
 
-## 🎯 step1 요구사항 구현을 위한 전략
+## **🎯 step1 요구사항 구현을 위한 전략**
 
 ### ✅ TODO 메뉴 추가
 
@@ -47,3 +47,33 @@
 - [x] 메뉴 삭제시 브라우저에서 제공하는 `confirm` 인터페이스를 활용한
       다.
 - [x] 총 메뉴 갯수를 count하여 상단에 보여준다.
+
+## ✒️ Step 1 회고
+
+- 리펙터링 처리하는 방법을 배울 수 있었습니다.
+  - 역할이 비슷한 함수들 끼리 묶어 놓기
+  - 메서드 `remove` 와 같은 것을 쓰면 `delete` 동사를 쓰지말고
+    `remove`로 통일시켜라.
+  - 사용하지 않는 props 들은 정리해 놓아라.
+  - 리펙터링 할 때마다 정상 작동하는지 테스트를 해야한다.
+- 이벤트를 위임할 수 있다.
+- 요구 전략을 꼼꼼하게 잘 짜야 실수도 하지 않고, 시간을 줄일 수 있다.
+- DOM 요소를 가져올때는 `$`를 사용하여 변수처럼 사용할 수 있다.
+- 알게된 새로운 메서드
+  - innerText: 내부 태그의 text 값을 가져온다.
+  - closest: 가까운 태그로 이동
+  - insertAdjacentHTML: 코드 내부에 삽입한다.
+    ```js
+      document
+        .querySelector(selector)
+        .insertAdjacentHTML(option, 삽입할 HTML);
+      <!-- beforebegin -->
+      <p>
+      <!-- afterbegin -->
+      foo
+      <!-- beforeend -->
+      </p>
+      <!-- afterend -->
+    ```
+
+---
