@@ -19,6 +19,8 @@ function App() {
     desert: []
   };
 
+  this.currentCategory = 'espresso';
+
   this.init = () => {
     if (store.getLocalStorage()?.length > 1) {
       this.menu = store.getLocalStorage();
