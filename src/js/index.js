@@ -11,12 +11,21 @@ const $ = (selector) => document.querySelector(selector);
 function App() {
   $('#espresso-menu-list').addEventListener('click', (e) => {
     if (e.target.classList.contains('menu-edit-button')) {
-      const menuName = e.target
-        .closest('li')
-        .querySelector('.menu-name').innerText;
-      prompt('메뉴명을 수정하세요', menuName);
+      const $menuName = e.target.closest('li').querySelector('.menu-name');
+      const updatedMenuName = prompt(
+        '메뉴명을 수정하세요',
+        $menuName.innerText
+      );
+      if (updatedMenuName === null) {
+        return;
+      }
+      if (updatedMenuName === '') {
+        alert('값을 입력해주세요');
+        return;
+      }
+      $menuName.innerText = updatedMenuName;
     }
-  })
+  });
 
   $('#espresso-menu-form').addEventListener('submit', (e) => {
     e.preventDefault();
