@@ -27,7 +27,7 @@ function App() {
 
     const espressoMenuName = $('#espresso-menu-name').value;
     this.menu.push({ name: espressoMenuName });
-
+    store.setLocalStorage(this.menu);
     const template = this.menu.map((menuItem) => {
       return `<li class='menu-list-item d-flex items-center py-2'>
                 <span class='w-100 pl-2 menu-name'>${menuItem.name}</span>
