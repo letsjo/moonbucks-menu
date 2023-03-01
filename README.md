@@ -19,6 +19,50 @@
 ## ☕ [MOONBUCKS 문제](./docs/)
 
 ---
+## 📆 진행 기간
+
+**2023. 02. 28 ~ 2023. 03. 01**
+
+
+---
+
+## **⏯️ 애플리케이션 구동 방법**
+
+### 💻 애플리케이션 실행
+
+1. 애플리케이션 저장소를 local에 clone 합니다.
+  ```sh
+  git clone https://github.com/letsjo/moonbucks-menu.git
+  ```
+
+2. `live-server`를 global 로 설치합니다.
+  ```sh
+  npm install -g live-server
+  ```
+
+3. `live-server`를 실행해 줍니다.
+  ```sh
+  live-server ./moonbucks-menu
+  ```
+
+### 💽 웹서버 실행
+
+1. 웹서버 저장소를 local에 clone 해줍니다.
+  ```sh
+  git clone https://github.com/blackcoffee-study/moonbucks-menu-server.git
+  ```
+
+2. 저장소를 clone한 후 아래 명령어를 입력해 의존성 라이브러리를 설치해줍니다.
+  ```sh
+  npm install
+  ```
+
+3. 아래 명령어를 이용해 서버를 동작시킵니다.
+  ```sh
+  npm start
+  ```
+
+---
 
 ## **🎯 step1 요구사항 구현을 위한 전략**
 
@@ -47,7 +91,7 @@
       다.
 - [x] 총 메뉴 갯수를 count하여 상단에 보여준다.
 
-## ✒️ Step 1 회고
+## **✒️ Step 1 회고**
 
 - 리펙터링 처리하는 방법을 배울 수 있었습니다.
   - 역할이 비슷한 함수들 끼리 묶어 놓기
@@ -107,7 +151,7 @@
 - [x] 품절 버튼을 클릭하면, localStorage에 상태값이 저장된다.
 - [x] 클릭 이벤트에서 class속성 값에 sold-out을 추가한다.
 
-## ✒️ Step 2 회고
+## **✒️ Step 2 회고**
 
 - `this`를 사용해서 상태 값을 저장 및 관리 하는 방법을 배울 수 있었습니다.
 - `init` 메서드를 만들어 class의 생성자 역할을 할 수 있는 점을 배울 수 있었습니다.
@@ -139,7 +183,7 @@
 - [x] API 통신이 실패하는 경우 alert으로 피드백 해준다.
 - [x] 중복되는 메뉴는 추가 할 수 없다.
 
-## ✒️ Step 3 회고
+## **✒️ Step 3 회고**
 
 - `fetch` 를 통하여 웹 서버와 통신할 수 있는 API를 구현할 수 있었습니다.
 - `fetch` 요청 과정을 모듈화하여 처리하는 방법을 배울 수 있었습니다.
