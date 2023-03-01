@@ -1,5 +1,5 @@
 import { $ } from './utils/dom.js';
-import store from './store/index.js';
+import MenuApi from './api/index.js';
 
 function App() {
   // 상태는 변하는 데이터, 이 앱에서 변하는 것이 무엇인가 - 메뉴명
@@ -13,20 +13,27 @@ function App() {
 
   this.currentCategory = 'espresso';
 
-  this.init = () => {
-    if (store.getLocalStorage()) {
-      this.menu = store.getLocalStorage();
-    }
+  this.init = async () => {
     render();
     initEventListeners();
   };
 
-  const render = () => {
-    const template = this.menu[this.currentCategory]
-      .map((menuItem, index) => {
-        return `<li data-menu-id="${index}" class='menu-list-item d-flex items-center py-2'>
+  const render = async () => {
+    this.menu[this.currentCategory] =
+      await MenuApi.getAllMenuByCategory(
+        this.currentCategory,
+      );
+    const template = this.menu[
+      this.currentCategory
+    ]
+      .map((menuItem) => {
+        return `<li data-menu-id="${
+          menuItem.id
+        }" class='menu-list-item d-flex items-center py-2'>
                 <span class='w-100 pl-2 menu-name ${
-                  menuItem.soldOut ? 'sold-out' : ''
+                  menuItem.isSoldOut
+                    ? 'sold-out'
+                    : ''
                 }'>${menuItem.name}</span>
                 <button
                   type='button'
@@ -56,26 +63,45 @@ function App() {
   };
 
   const updateMenuCount = () => {
-    const menuCount = this.menu[this.currentCategory].length;
-    $('.menu-count').innerText = `총 ${menuCount}개`;
+    const menuCount =
+      this.menu[this.currentCategory].length;
+    $(
+      '.menu-count',
+    ).innerText = `총 ${menuCount}개`;
   };
 
-  const addMenuName = () => {
+  const addMenuName = async () => {
     if ($('#menu-name').value === '') {
       alert('값을 입력해주세요');
       return;
     }
 
-    const menuName = $('#menu-name').value;
-    this.menu[this.currentCategory].push({ name: menuName });
-    store.setLocalStorage(this.menu);
-    render();
+    const duplicatedItem = this.menu[
+      this.currentCategory
+    ].find(
+      (menuItem) =>
+        menuItem.name === $('#menu-name').value,
+    );
+    if (duplicatedItem) {
+      alert('이미 등록된 메뉴입니다.');
+      $('#menu-name').value = '';
+      return;
+    }
 
+    const menuName = $('#menu-name').value;
+
+    await MenuApi.addMenu(
+      this.currentCategory,
+      menuName,
+    );
+
+    render();
     $('#menu-name').value = '';
   };
 
-  const updateMenuName = (e) => {
-    const menuId = e.target.closest('li').dataset.menuId;
+  const updateMenuName = async (e) => {
+    const menuId =
+      e.target.closest('li').dataset.menuId;
     const $menuName = e.target
       .closest('li')
       .querySelector('.menu-name');
@@ -93,73 +119,111 @@ function App() {
       alert('값을 입력해주세요');
       return;
     }
-
-    this.menu[this.currentCategory][menuId].name = updatedMenuName;
-    store.setLocalStorage(this.menu);
+    await MenuApi.updateMenu(
+      this.currentCategory,
+      updatedMenuName,
+      menuId,
+    );
     render();
   };
 
-  const removeMenuName = (e) => {
+  const removeMenuName = async (e) => {
     if (confirm('정말 삭제하시겠습니까?')) {
-      const menuId = e.target.closest('li').dataset.menuId;
-      this.menu[this.currentCategory].splice(menuId, 1);
-      store.setLocalStorage(this.menu);
+      const menuId =
+        e.target.closest('li').dataset.menuId;
+      await MenuApi.deleteMenu(
+        this.currentCategory,
+        menuId,
+      );
       render();
     }
   };
 
-  const soldOutMenu = (e) => {
-    const menuId = e.target.closest('li').dataset.menuId;
-    this.menu[this.currentCategory][menuId].soldOut =
-      !this.menu[this.currentCategory][menuId].soldOut;
-    store.setLocalStorage(this.menu);
+  const soldOutMenu = async (e) => {
+    const menuId =
+      e.target.closest('li').dataset.menuId;
+    await MenuApi.toggleSoleOutMenu(
+      this.currentCategory,
+      menuId,
+    );
     render();
   };
 
-  const initEventListeners = () => {
-    $('#menu-list').addEventListener('click', (e) => {
-      if (e.target.classList.contains('menu-edit-button')) {
-        updateMenuName(e);
-        return;
-      }
-
-      if (e.target.classList.contains('menu-remove-button')) {
-        removeMenuName(e);
-        return;
-      }
-
-      if (e.target.classList.contains('menu-sold-out-button')) {
-        soldOutMenu(e);
-        return;
-      }
-    });
-
-    $('#menu-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-    });
-
-    $('#menu-submit-button').addEventListener('click', addMenuName);
-
-    $('#menu-name').addEventListener('keypress', (e) => {
-      if (e.key !== 'Enter') {
-        return;
-      }
-      addMenuName();
-    });
-
-    $('nav').addEventListener('click', (e) => {
-      const isCategoryButton = e.target.classList.contains(
+  const changeCategory = (e) => {
+    const isCategoryButton =
+      e.target.classList.contains(
         'cafe-category-name',
       );
-      if (isCategoryButton) {
-        const categoryName = e.target.dataset.categoryName;
-        this.currentCategory = categoryName;
-        $(
-          '#category-title',
-        ).innerText = `${e.target.innerText} 메뉴 관리`;
-        render();
-      }
-    });
+    if (isCategoryButton) {
+      const categoryName =
+        e.target.dataset.categoryName;
+      this.currentCategory = categoryName;
+      $(
+        '#category-title',
+      ).innerText = `${e.target.innerText} 메뉴 관리`;
+      render();
+    }
+  };
+
+  const initEventListeners = () => {
+    $('#menu-list').addEventListener(
+      'click',
+      (e) => {
+        if (
+          e.target.classList.contains(
+            'menu-edit-button',
+          )
+        ) {
+          updateMenuName(e);
+          return;
+        }
+
+        if (
+          e.target.classList.contains(
+            'menu-remove-button',
+          )
+        ) {
+          removeMenuName(e);
+          return;
+        }
+
+        if (
+          e.target.classList.contains(
+            'menu-sold-out-button',
+          )
+        ) {
+          soldOutMenu(e);
+          return;
+        }
+      },
+    );
+
+    $('#menu-form').addEventListener(
+      'submit',
+      (e) => {
+        e.preventDefault();
+      },
+    );
+
+    $('#menu-submit-button').addEventListener(
+      'click',
+      addMenuName,
+    );
+
+    $('#menu-name').addEventListener(
+      'keypress',
+      (e) => {
+        if (e.key !== 'Enter') {
+          return;
+        }
+        addMenuName();
+      },
+    );
+
+    $('nav').addEventListener(
+      'click',
+      changeCategory,
+    );
   };
 }
 
