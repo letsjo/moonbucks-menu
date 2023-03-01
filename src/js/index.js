@@ -222,21 +222,28 @@ function App() {
       },
     );
 
-    $('nav').addEventListener('click', (e) => {
-      const isCategoryButton =
-        e.target.classList.contains(
-          'cafe-category-name',
-        );
-      if (isCategoryButton) {
-        const categoryName =
-          e.target.dataset.categoryName;
-        this.currentCategory = categoryName;
-        $(
-          '#category-title',
-        ).innerText = `${e.target.innerText} 메뉴 관리`;
-        render();
-      }
-    });
+    $('nav').addEventListener(
+      'click',
+      async (e) => {
+        const isCategoryButton =
+          e.target.classList.contains(
+            'cafe-category-name',
+          );
+        if (isCategoryButton) {
+          const categoryName =
+            e.target.dataset.categoryName;
+          this.currentCategory = categoryName;
+          $(
+            '#category-title',
+          ).innerText = `${e.target.innerText} 메뉴 관리`;
+          this.menu[this.currentCategory] =
+            await MenuApi.getAllMenuByCategory(
+              this.currentCategory,
+            );
+          render();
+        }
+      },
+    );
   };
 }
 
