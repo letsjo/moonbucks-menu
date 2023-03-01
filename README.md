@@ -16,231 +16,131 @@
 
 <br/>
 
-# ☕️ 코드리뷰 모임 - Black Coffee
+## ☕ [MOONBUCKS 문제](./docs/)
 
-<br/>
+---
 
-> '훌륭한 의사소통은 블랙커피처럼 자극적이며, 후에 잠들기가 어렵다'. <br> A.M. 린드버그(미국의 작가, 수필가) -
+## **🎯 step1 요구사항 구현을 위한 전략**
 
-<br/>
+### ✅ TODO 메뉴 추가
 
-블랙커피처럼 서로를 자극해주고, 동기부여 해주며, 그 성장과정으로 인해 의미있는 가치를 만들어내고자 하는  
-**개발자 커뮤니티** ☕️ **Black Coffee**입니다.
+- [x] 메뉴의 이름을 입력 받고 엔터키 입력으로 추가한다.
+- [x] 메뉴의 이름을 입력 받고 확인 버튼을 클릭하면 메뉴를 추가한다.
+- [x] 추가되는 메뉴의 아래 마크업은
+      `<ul id="espresso-menu-list" class="mt-3 pl-0"></ul>` 
+      안에 삽입해야 한다.
+- [x] 총 메뉴 갯수를 count하여 상단에 보여준다.
+- [x] 메뉴가 추가되고 나면, input은 빈 값으로 초기화한다.
+- [x] 사용자 입력값이 빈 값이라면 추가되지 않는다.
 
-<br/>
+### ✅ TODO 메뉴 수정
 
-## 🔥 Projects!
+- [x] 메뉴의 수정 버튼을 눌러 메뉴 이름 수정할 수 있다.
+- [x] 메뉴 수정시 브라우저에서 제공하는 `prompt` 인터페이스를 활용한다.
+- [x] 메뉴 수정시 빈 값이라면 수정되지 않는다.
+- [x] 메뉴 수정시 취소 버튼을 누르면 수정되지 않는다.
 
-<p align="middle">
-  <img width="400" src="./src/images/moonbucks-main.png">
-</p>
+### ✅ TODO 메뉴 삭제
 
-<p align="middle">
-  <a href="https://blackcoffee-study.github.io/moonbucks-menu/">🖥️ 데모 링크</a>
-</p>
+- [x] 메뉴 삭제 버튼을 이용하여 메뉴 삭제할 수 있다.
+- [x] 메뉴 삭제시 브라우저에서 제공하는 `confirm` 인터페이스를 활용한
+      다.
+- [x] 총 메뉴 갯수를 count하여 상단에 보여준다.
 
-<br/>
+## ✒️ Step 1 회고
 
-## 🎯 step1 요구사항 - 돔 조작과 이벤트 핸들링으로 메뉴 관리하기
+- 리펙터링 처리하는 방법을 배울 수 있었습니다.
+  - 역할이 비슷한 함수들 끼리 묶어 놓기
+  - 메서드 `remove` 와 같은 것을 쓰면 `delete` 동사를 쓰지말고
+    `remove`로 통일시켜라.
+  - 사용하지 않는 props 들은 정리해 놓아라.
+  - 리펙터링 할 때마다 정상 작동하는지 테스트를 해야한다.
+- 이벤트를 위임할 수 있다.
+- 요구 전략을 꼼꼼하게 잘 짜야 실수도 하지 않고, 시간을 줄일 수 있다.
+- DOM 요소를 가져올때는 `$`를 사용하여 변수처럼 사용할 수 있다.
+- 알게된 새로운 메서드
+  - innerText: 내부 태그의 text 값을 가져온다.
+  - closest: 가까운 태그로 이동
+  - insertAdjacentHTML: 코드 내부에 삽입한다.
+    ```js
+      document
+        .querySelector(selector)
+        .insertAdjacentHTML(option, 삽입할 HTML);
+      <!-- beforebegin -->
+      <p>
+      <!-- afterbegin -->
+      foo
+      <!-- beforeend -->
+      </p>
+      <!-- afterend -->
+    ```
 
-- [ ] 에스프레소 메뉴에 새로운 메뉴를 확인 버튼 또는 엔터키 입력으로 추가한다.
-  - [ ] 메뉴가 추가되고 나면, input은 빈 값으로 초기화한다.
-  - [ ] 사용자 입력값이 빈 값이라면 추가되지 않는다.
-- [ ] 메뉴의 수정 버튼을 눌러 메뉴 이름 수정할 수 있다.
-  - [ ] 메뉴 수정시 브라우저에서 제공하는 `prompt` 인터페이스를 활용한다.
-- [ ] 메뉴 삭제 버튼을 이용하여 메뉴 삭제할 수 있다.
-  - [ ] 메뉴 삭제시 브라우저에서 제공하는 `confirm` 인터페이스를 활용한다.
-- [ ] 총 메뉴 갯수를 count하여 상단에 보여준다.
-- 추가되는 메뉴의 아래 마크업은 `<ul id="espresso-menu-list" class="mt-3 pl-0"></ul>` 안에 삽입해야 한다.
+---
 
-```js
-<li class="menu-list-item d-flex items-center py-2">
-  <span class="w-100 pl-2 menu-name">${name}</span>
-  <button
-    type="button"
-    class="bg-gray-50 text-gray-500 text-sm mr-1 menu-edit-button"
-  >
-    수정
-  </button>
-  <button
-    type="button"
-    class="bg-gray-50 text-gray-500 text-sm menu-remove-button"
-  >
-    삭제
-  </button>
-</li>
-```
+## **🎯 step2 요구사항 - 상태 관리로 메뉴 관리하기**
 
-## 🎯 step2 요구사항 - 상태 관리로 메뉴 관리하기
+### ✅ TODO 데이터 Read & Write
 
-- [ ] [localStorage](https://developer.mozilla.org/ko/docs/Web/API/Window/localStorage)에 데이터를 저장하여 새로고침해도 데이터가 남아있게 한다.
-- [ ] 에스프레소, 프라푸치노, 블렌디드, 티바나, 디저트 각각의 종류별로 메뉴판을 관리할 수 있게 만든다.
-  - [ ] 페이지에 최초로 접근할 때는 에스프레소 메뉴가 먼저 보이게 한다.
-- [ ] 품절 상태인 경우를 보여줄 수 있게, 품절 버튼을 추가하고 `sold-out` class를 추가하여 상태를 변경한다.
-- 품절 상태 메뉴의 마크업
+- [x] localStorage에 데이터를 저장한다.
+  - [x] 메뉴를 추가할 때 저장
+  - [x] 메뉴를 수정할 때 저장
+  - [x] 메뉴를 삭제할 때 저장
+- [x] localStorage의 데이터를 읽어온다.
 
-```js
-<li class="menu-list-item d-flex items-center py-2">
-  <span class="w-100 pl-2 menu-name sold-out">${name}</span>
-  <button
-    type="button"
-    class="bg-gray-50 text-gray-500 text-sm mr-1 menu-sold-out-button"
-  >
-    품절
-  </button>
-  <button
-    type="button"
-    class="bg-gray-50 text-gray-500 text-sm mr-1 menu-edit-button"
-  >
-    수정
-  </button>
-  <button
-    type="button"
-    class="bg-gray-50 text-gray-500 text-sm menu-remove-button"
-  >
-    삭제
-  </button>
-</li>
-```
+### ✅ TODO 카테고리별 메뉴판 관리
+
+- [x] 카테고리별 메뉴판 관리
+  - 에스프레소
+  - 프라푸치노
+  - 블렌디드
+  - 티바나
+  - 디저트
+
+### ✅ TODO 페이지 접근시 최초 데이터 Read & Rendering
+
+- [x] 페이지에 최초로 로딩될 때, localStorage 에스프레소 메뉴를 읽어온다.
+- [x] 에스프레소 메뉴를 페이지에 그려준다.
+
+### ✅ 품절 상태 관리
+
+- [x] 품절 버튼을 추가한다.
+- [x] 품절 버튼을 클릭하면, localStorage에 상태값이 저장된다.
+- [x] 클릭 이벤트에서 class속성 값에 sold-out을 추가한다.
+
+## ✒️ Step 2 회고
+
+- `this`를 사용해서 상태 값을 저장 및 관리 하는 방법을 배울 수 있었습니다.
+- `init` 메서드를 만들어 class의 생성자 역할을 할 수 있는 점을 배울 수 있었습니다.
+- Vanilla JS에서도 각 함수들을 모듈화 하여, import 해서 사용할 수 있다는 점을 알 수 있었습니다.
+- `new` 를 사용하여, 각 카테고리 별 App을 만들어서 메뉴를 관리 해볼 수 있지 않을까 생각했습니다.
+
+---
 
 ## 🎯 step3 요구사항 - 서버와의 통신을 통해 메뉴 관리하기
 
-- [ ] [링크](https://github.com/blackcoffee-study/moonbucks-menu-server)에 있는 웹 서버 저장소를 clone하여 로컬에서 웹 서버를 실행시킨다.
-- [ ] 웹 서버를 띄워서 실제 서버에 데이터의 변경을 저장하는 형태로 리팩터링한다.
-  - [ ] localStorage에 저장하는 로직은 지운다.
-  - [ ] fetch 비동기 api를 사용하는 부분을 async await을 사용하여 구현한다.
-  - [ ] API 통신이 실패하는 경우에 대해 사용자가 알 수 있게 [alert](https://developer.mozilla.org/ko/docs/Web/API/Window/alert)으로 예외처리를 진행한다.
-- [ ] 중복되는 메뉴는 추가할 수 없다.
+### ✅ TODO 웹 서버 요청하기
 
-## 📝 API
+- [x] 서버에 새로운 메뉴가 추가 될 수 있도록 요청한다.
+- [x] 카테고리별 메뉴 리스트를 불러온다.
+- [x] 서버에 수정된 메뉴명으로 변경될 수 있도록 요청한다.
+- [x] 서버에 메뉴가 품절 처리될 수 있도록 요청한다.
+- [x] 서버에 메뉴가 삭제될 수 있도록 요청한다.
 
-### baseUrl
+### ✅ TODO 리펙터링 하기
 
-`http://localhost:3000`
+- [x] localStorage에 저장하는 로직은 지운다.
+- [x] fetch 비동기 api를 사용하는 부분을 async await을 사용하여 구현한다.
+- [x] 중복된 코드 삭제
+  - [x] render 전 menu 상태값 최신화 시켜주는 것을 render 메서드 안에 넣어준다. 
+  - [x] 가독성을 높히기 위해 모듈화 할 수 있는 코드를 찾아본다.
 
-### 메뉴 생성하기
+### ✅ TODO 사용자 경험
 
-| method | uri                          |
-| ------ | ---------------------------- |
-| POST   | /api/category/:category/menu |
+- [x] API 통신이 실패하는 경우 alert으로 피드백 해준다.
+- [x] 중복되는 메뉴는 추가 할 수 없다.
 
-```javascript
-{
- requestBody: {
-   "name": "string"
- },
- response: {
-   "id": "string",
-   "name": "string",
-   "isSoldOut": Boolean
-  }
-}
-```
+## ✒️ Step 3 회고
 
-### 카테고리별 메뉴리스트 불러오기
-
-| method | uri                          |
-| ------ | ---------------------------- |
-| GET    | /api/category/:category/menu |
-
-```javascript
-{
-  response: [
-    {
-      id: "string",
-      name: "string",
-      isSoldOut: Boolean,
-    },
-  ];
-}
-```
-
-### 메뉴 이름 수정하기
-
-| method | uri                                  |
-| ------ | ------------------------------------ |
-| PUT    | /api/category/:category/menu/:menuId |
-
-```javascript
-{
- requestBody: {
-   "name": "string"
- },
- response: {
-   "id": "string",
-   "name": "string",
-   "isSoldOut": Boolean
-  }
-}
-```
-
-### 메뉴 품절 처리하기
-
-| method | uri                                          |
-| ------ | -------------------------------------------- |
-| PUT    | /api/category/:category/menu/:menuId/soldout |
-
-```javascript
-{
- response: {
-   "id": "string",
-   "name": "string",
-   "isSoldOut": Boolean
-  }
-}
-```
-
-### 메뉴 삭제하기
-
-| method | uri                                  |
-| ------ | ------------------------------------ |
-| DELETE | /api/category/:category/menu/:menuId |
-
-```javascript
-응답 데이터 없음
-```
-
-<br/>
-
-## ⚙️ Before Started
-
-#### <img alt="Tip" src="https://img.shields.io/static/v1.svg?label=&message=Tip&style=flat-square&color=673ab8"> 로컬에서 서버 띄워서 손쉽게 static resources 변경 및 확인하는 방법
-
-로컬에서 웹서버를 띄워 html, css, js 등을 실시간으로 손쉽게 테스트해 볼 수 있습니다. 이를 위해서는 우선 npm이 설치되어 있어야 합니다. 구글에 `npm install` 이란 키워드로 각자의 운영체제에 맞게끔 npm을 설치해주세요. 이후 아래의 명령어를 통해 실시간으로 웹페이지를 테스트해볼 수 있습니다.
-
-```
-npm install -g live-server
-```
-
-실행은 아래의 커맨드로 할 수 있습니다.
-
-```
-live-server 폴더명
-```
-
-<br/>
-
-## 💻 Code Review
-
-아래 링크들에 있는 리뷰 가이드를 보고, 좋은 코드 리뷰 문화를 만들어 나가려고 합니다.
-
-- [코드리뷰 가이드1](https://edykim.com/ko/post/code-review-guide/)
-- [코드리뷰 가이드2](https://wiki.lucashan.space/code-review/01.intro/)
-
-<br/>
-
-## 👏🏼 Contributing
-
-만약 미션 수행 중에 개선사항이 필요하다면, 언제든 자유롭게 PR을 보내주세요.
-
-<br/>
-
-## 🐞 Bug Report
-
-버그를 발견한다면, [Issues](https://github.com/blackcoffee-study/moonbucks-menu/issues)에 등록해주세요.
-
-<br/>
-
-## 📝 License
-
-This project is [MIT](https://github.com/blackcoffee-study/moonbucks-menu/blob/main/LICENSE) licensed.
+- `fetch` 를 통하여 웹 서버와 통신할 수 있는 API를 구현할 수 있었습니다.
+- `fetch` 요청 과정을 모듈화하여 처리하는 방법을 배울 수 있었습니다.
+- 중복 코드를 줄여가는 리펙터링 과정을 경험 할 수 있었습니다. 
