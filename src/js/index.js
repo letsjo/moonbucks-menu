@@ -14,15 +14,15 @@ function App() {
   this.currentCategory = 'espresso';
 
   this.init = async () => {
-    this.menu[this.currentCategory] =
-      await MenuApi.getAllMenuByCategory(
-        this.currentCategory,
-      );
     render();
     initEventListeners();
   };
 
-  const render = () => {
+  const render = async () => {
+    this.menu[this.currentCategory] =
+      await MenuApi.getAllMenuByCategory(
+        this.currentCategory,
+      );
     const template = this.menu[
       this.currentCategory
     ]
@@ -83,10 +83,6 @@ function App() {
       menuName,
     );
 
-    this.menu[this.currentCategory] =
-      await MenuApi.getAllMenuByCategory(
-        this.currentCategory,
-      );
     render();
     $('#menu-name').value = '';
   };
@@ -116,10 +112,6 @@ function App() {
       updatedMenuName,
       menuId,
     );
-    this.menu[this.currentCategory] =
-      await MenuApi.getAllMenuByCategory(
-        this.currentCategory,
-      );
     render();
   };
 
@@ -131,10 +123,6 @@ function App() {
         this.currentCategory,
         menuId,
       );
-      this.menu[this.currentCategory] =
-        await MenuApi.getAllMenuByCategory(
-          this.currentCategory,
-        );
       render();
     }
   };
@@ -146,10 +134,6 @@ function App() {
       this.currentCategory,
       menuId,
     );
-    this.menu[this.currentCategory] =
-      await MenuApi.getAllMenuByCategory(
-        this.currentCategory,
-      );
     render();
   };
 
@@ -222,10 +206,6 @@ function App() {
           $(
             '#category-title',
           ).innerText = `${e.target.innerText} 메뉴 관리`;
-          this.menu[this.currentCategory] =
-            await MenuApi.getAllMenuByCategory(
-              this.currentCategory,
-            );
           render();
         }
       },
